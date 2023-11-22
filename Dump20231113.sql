@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: littlelemondm
+-- Host: 127.0.0.1    Database: littlelemondb
 -- ------------------------------------------------------
 -- Server version	8.0.34
 
@@ -80,8 +80,9 @@ DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu` (
   `MenuID` int NOT NULL AUTO_INCREMENT,
   `ItemID` int NOT NULL,
+  `MenuName` varchar(100) DEFAULT NULL,
   `Cuisine` varchar(100) NOT NULL,
-  PRIMARY KEY (`MenuID`,`ItemID`),
+  PRIMARY KEY (`MenuID`),
   KEY `item_id_fk_idx` (`ItemID`),
   CONSTRAINT `item_id_fk` FOREIGN KEY (`ItemID`) REFERENCES `menuitems` (`ItemID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -105,8 +106,11 @@ DROP TABLE IF EXISTS `menuitems`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `menuitems` (
   `ItemID` int NOT NULL AUTO_INCREMENT,
-  `Name` varchar(200) NOT NULL,
-  `Type` varchar(100) NOT NULL,
+  `CourseName` varchar(200) NOT NULL,
+  `CuisineName` varchar(100) NOT NULL,
+  `StarterName` varchar(200) NOT NULL,
+  `DesertName` varchar(200) NOT NULL,
+  `Drink` varchar(100) NOT NULL,
   `Price` int NOT NULL,
   PRIMARY KEY (`ItemID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -157,17 +161,16 @@ DROP TABLE IF EXISTS `orders`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orders` (
   `OrderID` int NOT NULL AUTO_INCREMENT,
-  `TableNo` int DEFAULT NULL,
   `MenuID` int NOT NULL,
   `BookingID` int NOT NULL,
   `OrderDate` date NOT NULL,
   `Quantity` int NOT NULL,
   `TotalCost` decimal(10,0) NOT NULL,
   PRIMARY KEY (`OrderID`),
-  KEY `booking_id_fk_idx` (`BookingID`),
   KEY `menu_id_fk_idx` (`MenuID`),
+  KEY `booking_id_fk_idx` (`BookingID`),
   CONSTRAINT `booking_id_fk` FOREIGN KEY (`BookingID`) REFERENCES `bookings` (`BookingID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `menu_id_fk` FOREIGN KEY (`MenuID`) REFERENCES `menu` (`MenuID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `menu_id_fk` FOREIGN KEY (`MenuID`) REFERENCES `menu` (`MenuID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -217,4 +220,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-09 10:50:35
+-- Dump completed on 2023-11-13 13:06:19
